@@ -126,8 +126,8 @@
               <mainClass>org.basex.BaseXHTTP</mainClass>
               <arguments>
                 <argument>-h9894</argument>
-                <argument>-s9895</argument>
-                <argument>-p1984</argument>
+                <argument>-s8985</argument>
+                <argument>-p1985</argument>
                 
                 <argument>-Urestxq</argument>
               </arguments>
