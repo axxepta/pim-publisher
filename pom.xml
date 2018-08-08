@@ -19,7 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	
-    <converterservicesVersion>0.4.0</converterservicesVersion>
+    <converterservicesVersion>0.5.0</converterservicesVersion>
     <baseXVersion>9.0.2</baseXVersion>
   </properties>
 
@@ -31,6 +31,11 @@
 
   <repositories>
     <repository>
+      <id>central</id>
+      <name>Central Maven Repository</name>
+      <url>http://repo2.maven.org/maven2/</url>
+    </repository>
+    <repository>
       <id>basex</id>
       <name>BaseX Maven Repository</name>
       <url>http://files.basex.org/maven</url>
@@ -39,11 +44,6 @@
       <id>axxepta</id>
       <name>Axxepta Maven Repository</name>
       <url>http://repo.axxepta.com/maven</url>
-    </repository>
-    <repository>
-      <id>central</id>
-      <name>Central Maven Repository</name>
-      <url>http://repo2.maven.org/maven2/</url>
     </repository>
   </repositories>
 
