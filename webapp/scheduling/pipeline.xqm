@@ -30,10 +30,10 @@ declare
             if (empty($id))
                 then jobs:eval("import module namespace sched = 'scheduling/pipeline' at 'pipeline.xqm'; sched:exec-pipe('" || $args || "')",
                     (),
-                    map{ 'service': true(), 'start': if (empty($start)) then 'PT0S' else $start, 'interval': if (empty($interval)) then 'PT1D' else $interval })
+                    map{ 'service': true(), 'start': if (empty($start)) then 'PT0S' else $start, 'interval': if (empty($interval)) then 'P1D' else $interval })
                 else jobs:eval("import module namespace sched = 'scheduling/pipeline' at 'pipeline.xqm'; sched:exec-pipe('" || $args || "')",
                     (),
-                    map{ 'service': true(), 'start': if (empty($start)) then 'PT0S' else $start, 'interval': if (empty($interval)) then 'PT1D' else $interval, 'id': $id })
+                    map{ 'service': true(), 'start': if (empty($start)) then 'PT0S' else $start, 'interval': if (empty($interval)) then 'P1D' else $interval, 'id': $id })
     ) else (
         _:exec-pipe($path, $input, $inputPath, $outputPath, $workPath)
     )
