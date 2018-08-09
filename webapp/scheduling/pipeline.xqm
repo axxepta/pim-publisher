@@ -54,7 +54,13 @@ declare function _:exec-pipe($path as xs:string,
       replace value of node ./pipeline/@outputPath with if (empty($outputPath) or $input = "") then ./pipeline/@outputPath/string() else $outputPath
     }
     (:return admin:write-log($pipe):)
-    return PipeExec:execProcessString(serialize($pipe))
+    (:return PipeExec:execProcessString(serialize($pipe)):)
+    
+    let $request := <http:request href='http://localhost:9894/spark/pipeline-async'
+        method='post' username='admin' password='admin' send-authorization='true'>
+        <http:body media-type='application/xml'>{$pipe}</http:body>
+      </http:request>
+    return http:send-request($request)
 };
 
 declare
