@@ -1,0 +1,70 @@
+group 'de.axxepta'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://files.basex.org/maven'
+    }
+    maven {
+        url 'http://repo.axxepta.com/maven'
+    }
+}
+
+configurations {
+    releaseJars
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    compile 'de.axxepta:converterservices:0.7.2'
+    compile 'org.basex:basex:9.0.2'
+    compile 'org.basex:basex-api:9.0.2'
+
+    releaseJars 'de.axxepta:converterservices:0.7.2'
+    releaseJars 'org.basex:basex:9.0.2'
+    releaseJars 'org.basex:basex-api:9.0.2'
+
+}
+
+task copyToLib( type: Copy ) {
+    into "$buildDir/libs/lib"
+    from configurations.releaseJars
+}
+
+jar {
+    dependsOn copyToLib
+    manifest {
+        attributes('Main-Class': 'org.basex.BaseXHTTP')
+    }
+}
+
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    manifest {
+        attributes('Main-Class': 'org.basex.BaseXHTTP')
+    }
+    doFirst {
+        from { configurations.releaseJars.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+    with jar
+}
+
+task createPom << {
+    pom {
+        project {
+            groupId 'de.axxepta'
+            artifactId 'pim-publisher'
+            version version
+        }
+    }.writeTo("pom.xml")
+}
