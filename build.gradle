@@ -24,11 +24,11 @@ configurations {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
-    compile 'de.axxepta:converterservices:0.7.2'
+    compile 'de.axxepta:converterservices:0.7.3'
     compile 'org.basex:basex:9.0.2'
     compile 'org.basex:basex-api:9.0.2'
 
-    releaseJars 'de.axxepta:converterservices:0.7.2'
+    releaseJars 'de.axxepta:converterservices:0.7.3'
     releaseJars 'org.basex:basex:9.0.2'
     releaseJars 'org.basex:basex-api:9.0.2'
 

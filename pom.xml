@@ -19,7 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	
-    <converterservicesVersion>0.7.2</converterservicesVersion>
+    <converterservicesVersion>0.7.3</converterservicesVersion>
     <baseXVersion>9.0.2</baseXVersion>
   </properties>
 
