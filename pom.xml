@@ -19,7 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <converterservicesVersion>0.7.6</converterservicesVersion>
+    <converterservicesVersion>0.7.7</converterservicesVersion>
     <baseXVersion>9.1</baseXVersion>
   </properties>
 
@@ -62,6 +62,12 @@
       <groupId>org.basex</groupId>
       <artifactId>basex-api</artifactId>
       <version>${baseXVersion}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>de.axxepta</groupId>
@@ -76,44 +82,6 @@
   </dependencies>
 
   <profiles>
-    <profile>
-      <id>convert-images</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>convert-images.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>store-image-info</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>store-image-info.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>start</id>
       <build>
@@ -131,6 +99,9 @@
                 
                 <argument>-Urestxq</argument>
               </arguments>
+              <additionalClasspathElements>
+                <additionalClasspathElement>src/main/resources</additionalClasspathElement>
+              </additionalClasspathElements>
             </configuration>
           </plugin>
         </plugins>
@@ -158,25 +129,6 @@
       </build>
     </profile>
     <profile>
-      <id>init-rebo</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>init-rebo.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
     <id>backup</id>
     <build>
       <plugins>
@@ -195,288 +147,6 @@
       </plugins>
     </build>
     </profile>
-    <!-- -->
-    
-    <profile>
-      <id>product-data-fulltext</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>product-data-fulltext.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-product-data-convert</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-product-data-convert.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-product-data</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-product-data.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-image-data</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-image-data.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-other-data</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-other-data.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-other-data-transform</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-other-data-transform.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-orders-data</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-orders-data.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-orders-data-transform</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-orders-data-transform.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>articles-to-shop</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>articles-to-shop.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>customers-to-shop</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>customers-to-shop.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-storage-to-shop</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-storage-to-shop.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>new-orders</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>new-orders.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>new-customers</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>new-customers.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
-    <profile>
-      <id>erp-orders-to-shop</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
-            <configuration>
-              <mainClass>org.basex.BaseX</mainClass>
-              <arguments>
-                <argument>-v</argument>
-                <argument>erp-orders-to-shop.bxs</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    
     
     <profile>
       <id>gui</id>

@@ -18,17 +18,17 @@ repositories {
 }
 
 configurations {
-    releaseJars
+    releaseJars.exclude group: 'org.slf4j', module: 'slf4j-simple'
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
-    compile 'de.axxepta:converterservices:0.7.6'
+    compile 'de.axxepta:converterservices:0.7.7'
     compile 'org.basex:basex:9.1'
     compile 'org.basex:basex-api:9.1'
 
-    releaseJars 'de.axxepta:converterservices:0.7.6'
+    releaseJars 'de.axxepta:converterservices:0.7.7'
     releaseJars 'org.basex:basex:9.1'
     releaseJars 'org.basex:basex-api:9.1'
 
@@ -57,14 +57,4 @@ task fatJar(type: Jar) {
     }
     exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
     with jar
-}
-
-task createPom << {
-    pom {
-        project {
-            groupId 'de.axxepta'
-            artifactId 'pim-publisher'
-            version version
-        }
-    }.writeTo("pom.xml")
 }
