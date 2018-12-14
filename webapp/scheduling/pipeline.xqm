@@ -41,7 +41,8 @@ declare
   
 declare function _:exec-pipe($path as xs:string,
                     $input as xs:string?, $inputPath as xs:string?, $outputPath as xs:string?, $workPath as xs:string?)
-{                    
+{         
+    let $x := admin:write-log('Starting pipe ' || $path)
     let $base-pipe := db:open('Pipes', $path)
     
     let $pipe := $base-pipe update {
@@ -63,6 +64,15 @@ declare function _:exec-pipe($path as xs:string,
     return http:send-request($request)
 };
 
+
+declare
+  %rest:POST("{$content}")
+  %rest:path("/log")
+function _:admin-log($content) {
+    admin:write-log($content)
+};
+
+
 declare
   %rest:GET
   %rest:path("/pipe-test")
@@ -75,6 +85,7 @@ function _:pipe-test() {
       </http:request>
     return http:send-request($request)
 };
+
 
 declare
   %rest:GET
