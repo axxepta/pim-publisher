@@ -246,7 +246,7 @@ declare
 function _:import-section-erp($section as element(Section)){
 
  let $key := string($section/Title)
- _:replace-section-erp($key, $section)
+ return _:replace-section-erp($key, $section)
  
  (:
  let $cat := $_:CAT//Category[@Key = $key][1]
