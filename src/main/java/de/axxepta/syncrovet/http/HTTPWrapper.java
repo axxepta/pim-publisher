@@ -21,7 +21,7 @@ import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 
 public class HTTPWrapper {
 
-    public static String getJSON(String protocol, String host, int port, String path, String user, String password) {
+    public static String get(String protocol, String host, int port, String path, String user, String password) {
         CloseableHttpClient httpClient = getClient(host, port, user, password);
         try {
             HttpGet httpget = new HttpGet(protocol + "://" + host + ":" + Integer.toString(port) + path);
@@ -40,7 +40,7 @@ public class HTTPWrapper {
 
 
     public static String getXmlFromJSON(String protocol, String host, int port, String path, String user, String password) {
-        String str = getJSON(protocol, host, port, path, user, password);
+        String str = get(protocol, host, port, path, user, password);
         return "<response>" + JsonXml.JsonToXmlString(str) + "</response>";
     }
 
@@ -52,25 +52,45 @@ public class HTTPWrapper {
 
 
     public static String postJSON(String protocol, String host, int port, String path, String user, String password, String content) {
+        return post(protocol, host, port, path, user, password, content, ContentType.APPLICATION_JSON);
+    }
+
+
+    public static String postXML(String protocol, String host, int port, String path, String user, String password, String content) {
+        return post(protocol, host, port, path, user, password, content, ContentType.APPLICATION_XML);
+    }
+
+
+    public static String post(String protocol, String host, int port, String path, String user, String password, String content, ContentType contentType) {
         try (CloseableHttpClient httpClient = getClient(host, port, user, password)) {
             HttpPost httpPost = new HttpPost(protocol + "://" + host + ":" + Integer.toString(port) + path);
-			HttpEntity stringEntity = new StringEntity(content, ContentType.APPLICATION_JSON);
-			httpPost.setEntity(stringEntity);
+            HttpEntity stringEntity = new StringEntity(content, contentType);
+            httpPost.setEntity(stringEntity);
             try (CloseableHttpResponse response = httpClient.execute(httpPost))
             {
                 return EntityUtils.toString(response.getEntity());
             }
         } catch (IOException ex) {
-			return ex.getMessage();
-		}
+            return ex.getMessage();
+        }
     }
-		
-	
+
+
     public static String putJSON(String protocol, String host, int port, String path, String user, String password, String content) {
+        return put(protocol, host, port, path, user, password, content, ContentType.APPLICATION_JSON);
+    }
+
+
+    public static String putXML(String protocol, String host, int port, String path, String user, String password, String content) {
+        return put(protocol, host, port, path, user, password, content, ContentType.APPLICATION_XML);
+    }
+
+	
+    public static String put(String protocol, String host, int port, String path, String user, String password, String content, ContentType contentType) {
 		CloseableHttpClient httpClient = getClient(host, port, user, password);
         try {
             HttpPut httpPut = new HttpPut(protocol + "://" + host + ":" + Integer.toString(port) + path);
-			HttpEntity stringEntity = new StringEntity(content, ContentType.APPLICATION_JSON);
+			HttpEntity stringEntity = new StringEntity(content, contentType);
 			httpPut.setEntity(stringEntity);
             try (CloseableHttpResponse response = httpClient.execute(httpPut))
             {
