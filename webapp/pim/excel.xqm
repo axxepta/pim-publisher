@@ -246,6 +246,9 @@ declare
 function _:import-section-erp($section as element(Section)){
 
  let $key := string($section/Title)
+ _:replace-section-erp($key, $section)
+ 
+ (:
  let $cat := $_:CAT//Category[@Key = $key][1]
  let $cat-todo := $_:CAT//Category[@Key = '100'][1]
  let $cat-todo-items := $_:CAT//Category[@Key = '101'][1]
@@ -254,14 +257,12 @@ function _:import-section-erp($section as element(Section)){
  return if($cat) then ( 
    _:replace-section-erp($key, $section)
    ,
- for $f in $section//Feature
-   let $key := $f/@Key
-   group by $key
-   return _:assign-feature($f[1], $cat)
- ,
- for $p in $section/ProductInfo
- return _:import-product-erp($p, $cat, $cat-todo, $cat-todo-items)
- 
+   for $f in $section//Feature
+       let $key := $f/@Key
+       group by $key
+       return _:assign-feature($f[1], $cat)
+ )
+ :)
  )
  
  else admin:write-log("SECTION WITHOUT CATEGORY IN PIM: " || $key, "ERROR")
