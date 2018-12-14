@@ -262,11 +262,11 @@ function _:import-section-erp($section as element(Section)){
        group by $key
        return _:assign-feature($f[1], $cat)
  )
- :)
+
  )
- 
+
  else admin:write-log("SECTION WITHOUT CATEGORY IN PIM: " || $key, "ERROR")
-  
+   :) 
 };
 
 declare
