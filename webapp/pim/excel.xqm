@@ -27,6 +27,8 @@ declare variable $_:XML-EXT := ".xml";
 
 
 declare
+  %rest:GET
+  %rest:path("/pim/excel/convert")
 function _:convert-from-folder() {
   
    for $file in file:list($_:IMPORT_PATH_ERP, false(), "*" || $_:EXCEL-EXT)
