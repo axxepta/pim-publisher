@@ -16,7 +16,7 @@ declare variable $_:IMPORT_PATH := file:resolve-path($_:IMPORT_FOLDER);
 declare variable $_:IMPORT_FOLDER_ERP := 'upload/import/excel/schnittstelle';
 declare variable $_:IMPORT_PATH_ERP := file:resolve-path($_:IMPORT_FOLDER_ERP);
 
-declare variable $_:IMPORT_TMP_FOLDER := 'upload/import/tmp';
+declare variable $_:IMPORT_TMP_FOLDER := 'upload/import/xml';
 declare variable $_:IMPORT_TMP_PATH := file:resolve-path($_:IMPORT_TMP_FOLDER);
 
 declare variable $_:XSL := 'process/02_Datenmigration/xsl/';
