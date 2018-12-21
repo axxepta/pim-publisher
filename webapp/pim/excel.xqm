@@ -16,6 +16,9 @@ declare variable $_:IMPORT_PATH := file:resolve-path($_:IMPORT_FOLDER);
 declare variable $_:IMPORT_FOLDER_ERP := 'upload/import/excel/schnittstelle';
 declare variable $_:IMPORT_PATH_ERP := file:resolve-path($_:IMPORT_FOLDER_ERP);
 
+declare variable $_:IMPORT_FOLDER_ERP_LOCAL := 'upload/import/tmp';
+declare variable $_:IMPORT_PATH_ERP_LOCAL := file:resolve-path($_:IMPORT_FOLDER_ERP_LOCAL);
+
 declare variable $_:IMPORT_TMP_FOLDER := 'upload/import/xml';
 declare variable $_:IMPORT_TMP_PATH := file:resolve-path($_:IMPORT_TMP_FOLDER);
 
@@ -31,7 +34,7 @@ declare
   %rest:path("/pim/excel/convert")
 function _:convert-from-folder() {
   
-   for $file in file:list($_:IMPORT_PATH_ERP, false(), "*" || $_:EXCEL-EXT)
+   for $file in file:list($_:IMPORT_PATH_ERP_LOCAL, false(), "*" || $_:EXCEL-EXT)
        
        let $ic := _:import-convert($file)
         
@@ -48,7 +51,7 @@ declare
   %rest:path("/pim/excel/import")
 function _:import-from-folder() {
   
-   for $file in file:list($_:IMPORT_PATH_ERP, false(), "*" || $_:EXCEL-EXT)
+   for $file in file:list($_:IMPORT_PATH_ERP_LOCAL, false(), "*" || $_:EXCEL-EXT)
     
     return
       try {
@@ -117,7 +120,7 @@ declare
 function _:import-convert($file as xs:string) {
 
     let $is-erp := contains($file, 'export_schema')
-    let $path := if($is-erp) then  $_:IMPORT_PATH_ERP else $_:IMPORT_PATH
+    let $path := if($is-erp) then  $_:IMPORT_PATH_ERP_LOCAL else $_:IMPORT_PATH
     let $conv := "tools/ConvertExcel2Xml.exe"
     
     let $proc := proc:system($conv, ("-f", $path, "-s", "Sheet1", "-p", $file, "-s", "true"))
@@ -135,7 +138,7 @@ function _:import-transform($file as xs:string) {
   let $xml-file := replace($file, "\"||$_:EXCEL-EXT, $_:XML-EXT)
   (: let $path := $_:IMPORT_PATH || $xml-file :)
   let $is-erp := contains($file, 'export_schema')
-  let $path := if($is-erp) then  $_:IMPORT_PATH_ERP || $xml-file else $_:IMPORT_PATH || $xml-file
+  let $path := if($is-erp) then  $_:IMPORT_PATH_ERP_LOCAL || $xml-file else $_:IMPORT_PATH || $xml-file
   
   let $doc := doc($path)
   
