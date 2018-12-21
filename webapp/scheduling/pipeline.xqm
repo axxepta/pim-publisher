@@ -5,6 +5,7 @@ import module namespace PipeExec = 'de.axxepta.converterservices.proc.PipeExec';
 (: start pipeline from Pipes database, optionally as job, optionally as service (with standard interval 1D) :)
 declare
   %rest:GET
+  %output:method("text")
   %rest:path("/pipes/{$path}")
   %rest:query-param("input", "{$input}", "")
   %rest:query-param("inputPath", "{$inputPath}", "")
@@ -35,7 +36,8 @@ declare
                     (),
                     map{ 'service': true(), 'start': if (empty($start)) then 'PT0S' else $start, 'interval': if (empty($interval)) then 'P1D' else $interval, 'id': $id })
     ) else (
-        _:exec-pipe($path, $input, $inputPath, $outputPath, $workPath)
+       let $res := _:exec-pipe($path, $input, $inputPath, $outputPath, $workPath)
+       return "exec pipe " || $path
     )
   };
   
