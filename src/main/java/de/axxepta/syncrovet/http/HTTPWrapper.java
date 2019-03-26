@@ -4,6 +4,7 @@ import java.io.*;
 
 import de.axxepta.syncrovet.conversion.JsonXml;
 import org.apache.http.Header;
+import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -27,7 +28,13 @@ public class HTTPWrapper {
             HttpGet httpget = new HttpGet(protocol + "://" + host + ":" + Integer.toString(port) + path);
             try (CloseableHttpResponse response = httpClient.execute(httpget))
             {
-                return EntityUtils.toString(response.getEntity());
+                StatusLine statusLine = response.getStatusLine();
+                int responseCode = statusLine.getStatusCode();
+                if (responseCode >= 400) {
+                    return "{ \"success\" : false, \"status\" : " + responseCode + ", \"error\" : \"" + statusLine.getReasonPhrase() + "\" }";
+                } else {
+                    return EntityUtils.toString(response.getEntity());
+                }
             }
         } catch (IOException ex) {
 			return ex.getMessage();
