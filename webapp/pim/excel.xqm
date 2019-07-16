@@ -136,6 +136,7 @@ declare
 function _:import-transform($file as xs:string) {
 
   let $xml-file := replace($file, "\"||$_:EXCEL-EXT, $_:XML-EXT)
+  let $xml-pzn-file := replace($file, "\"||$_:EXCEL-EXT, '_pzn' || $_:XML-EXT)
   (: let $path := $_:IMPORT_PATH || $xml-file :)
   let $is-erp := contains($file, 'export_schema')
   let $path := if($is-erp) then  $_:IMPORT_PATH_ERP_LOCAL || $xml-file else $_:IMPORT_PATH || $xml-file
@@ -159,9 +160,41 @@ function _:import-transform($file as xs:string) {
   
   return if(empty($td))
   then
-   let $write := file:write($out-path, $xml4, map { "method": "xml"})
+   (:let $write := file:write($out-path, $xml4, map { "method": "xml"}):)
+   let $xml4-no-pzn := <Publication>{(
+    $xml4/Publication/@*,
+    for $section in $xml4/Publication/Section
+    return <Section>{(
+        $section/Title,
+        for $productInfo in $section/ProductInfo[not(empty(ProductItem[empty(Feature[@Key="PZN"])]))]
+        return <ProductInfo>{(
+            $productInfo/ProductName,
+            for $productItem in $productInfo/ProductItem
+            where $productItem[empty(Feature[@Key="PZN"])]
+            return $productItem
+        )}</ProductInfo>
+    )}</Section>
+   )}</Publication>
+   
+   let $write-no-pzn := file:write($out-path, $xml4-no-pzn, map { "method": "xml"})
+   let $xml4-pzn := <Publication>{(
+    $xml4/Publication/@*,
+    for $section in $xml4/Publication/Section
+    return <Section>{(
+        $section/Title,
+        for $productInfo in $section/ProductInfo[ProductItem/Feature/@Key="PZN"]
+        return <ProductInfo>{(
+            $productInfo/ProductName,
+            for $productItem in $productInfo/ProductItem
+            where $productItem[Feature/@Key="PZN"]
+            return $productItem
+        )}</ProductInfo>
+    )}</Section>
+   )}</Publication>
+   let $write-pzn := file:write($_:IMPORT_TMP_PATH || "__"|| $xml-pzn-file, $xml4-pzn, map { "method": "xml"})
    (: let $test := error(xs:QName('err:xsl'), 'could not process') :)
    return "Converted: " || $out-file
+   
   else
    let $write := file:write($out-path, <Publication pgDepth="0"/>, map { "method": "xml"})
    return "Error! Unknown properties: " || string-join(distinct-values($td/@type), ", ")
