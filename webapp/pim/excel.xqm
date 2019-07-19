@@ -160,7 +160,7 @@ function _:import-transform($file as xs:string) {
   
   return if(empty($td))
   then
-   let $write := file:write($out-path || '.bak', $xml4, map { "method": "xml"})
+(:   let $write := file:write($out-path, $xml4, map { "method": "xml"}):)
    let $xml4-no-pzn := <Publication>{(
     $xml4/Publication/@*,
     for $section in $xml4/Publication/Section
