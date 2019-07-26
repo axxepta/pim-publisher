@@ -1,5 +1,6 @@
 module namespace _ = "scheduling/scheduling";
 
+
 declare
   %rest:POST("{$query}")
   %rest:path('/jobs/daily-job')
@@ -19,6 +20,7 @@ function _:hourly-job($query, $time as xs:string, $id as xs:string) {
 };
 
 declare
+  %rest:GET
   %rest:path('/jobs/{$id}/stop') 
 function _:stop-job($id) {
   jobs:stop($id)
