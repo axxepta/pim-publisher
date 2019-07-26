@@ -1,2 +1,2 @@
-set MAVEN_OPTS="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=d:/pim-publisher/reports"
+set MAVEN_OPTS="-Xmx4096m"
 mvn exec:java -Pstart 
