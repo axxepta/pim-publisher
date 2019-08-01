@@ -123,9 +123,9 @@
             <configuration>
               <mainClass>org.basex.BaseXHTTP</mainClass>
               <arguments>
-                <argument>-h9896</argument>
+<!--                <argument>-h9896</argument>-->
                 <argument>-s8985</argument>
-                <argument>-p9899</argument>
+<!--                <argument>-p9899</argument>-->
                 <argument>stop</argument>
               </arguments>
             </configuration>
