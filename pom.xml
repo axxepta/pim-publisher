@@ -102,7 +102,6 @@
                 <argument>-h9894</argument>
                 <argument>-s8985</argument>
                 <argument>-p1985</argument>
-                
                 <argument>-Urestxq</argument>
               </arguments>
               <additionalClasspathElements>
@@ -125,7 +124,7 @@
               <mainClass>org.basex.BaseXHTTP</mainClass>
               <arguments>
                 <argument>-h9896</argument>
-                <argument>-s9897</argument>
+                <argument>-s8985</argument>
                 <argument>-p9899</argument>
                 <argument>stop</argument>
               </arguments>
