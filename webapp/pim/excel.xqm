@@ -62,62 +62,7 @@ function _:import-from-folder() {
        
 };
 
-declare %updating
-function _:import-images-from-folder() {
-  
-   for $file in file:list($_:IMPORT_PATH_ERP, false(), "*" || $_:EXCEL-EXT)
-        
-   return
-     try {
-        _:import-process-images($file)
-         } catch * {
-         admin:write-log('ERP IMAGES IMPORT ' || $file || ' FAILED: ' || $err:description || ' in ' || $err:module || ' at ' || $err:line-number)
-      }
-       
-};
-
-declare
-  %rest:GET
-  %rest:path("/pim/excel/list")
-  %output:method("xml")
-function _:import-list() {
-   
-   let $importable := (
-   for $file in file:list($_:IMPORT_PATH_ERP, false(), "*" || $_:EXCEL-EXT)
-   return <File>{$file}</File>
-   ,
-    for $file in file:list($_:IMPORT_PATH, false(), "*" || $_:EXCEL-EXT)
-   return <File>{$file}</File>
-   )
-   
-   return $importable
-};
-
-declare
-  %rest:GET
-  %rest:path("/pim/excel/edit/{$file}")
-  %output:method("xml")
-function _:import-edit($file) {
-   
-  let $is-erp := contains($file, 'export_schema')
-  let $path := if($is-erp) then  $_:IMPORT_PATH_ERP || $file else $_:IMPORT_PATH || $file
-  
-  let $size := file:size($path)
-  let $date := file:last-modified($path)
-  
-  return <File Type="{if($is-erp) then 'ERP' else 'STD'}">
-           <Name>{$file}</Name>
-           <Path>{$path}</Path>
-           <Size>{$size}</Size>
-           <Date>{$date}</Date>
-        </File>
-};
-
-declare
-  %rest:GET
-  %rest:path("/pim/excel-convert/{$file}")
-  %output:method("text")
-function _:import-convert($file as xs:string) {
+declare function _:import-convert($file as xs:string) {
 
     let $is-erp := contains($file, 'export_schema')
     let $path := if($is-erp) then  $_:IMPORT_PATH_ERP_LOCAL else $_:IMPORT_PATH
@@ -129,11 +74,7 @@ function _:import-convert($file as xs:string) {
 };
 
 
-declare
-  %rest:GET
-  %rest:path("/pim/excel-transform/{$file}")
-  %output:method("text")
-function _:import-transform($file as xs:string) {
+declare function _:import-transform($file as xs:string) {
 
   let $xml-file := replace($file, "\"||$_:EXCEL-EXT, $_:XML-EXT)
   let $xml-pzn-file := replace($file, "\"||$_:EXCEL-EXT, '_pzn' || $_:XML-EXT)
