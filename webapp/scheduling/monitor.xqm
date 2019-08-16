@@ -2,7 +2,6 @@ module namespace _ = "scheduling/monitor";
 
 import module namespace Monitor = 'http://axxepta.de/converterservices/utils/Monitor';
 
-
 declare
   %rest:GET
   %rest:path("/monitor/memory")

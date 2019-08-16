@@ -20,7 +20,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <converterservicesVersion>0.7.9</converterservicesVersion>
-    <baseXVersion>9.1</baseXVersion>
+    <baseXVersion>9.2.4</baseXVersion>
   </properties>
 
   <licenses>
@@ -95,13 +95,13 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
+            <version>1.6.0</version>
             <configuration>
               <mainClass>org.basex.BaseXHTTP</mainClass>
               <arguments>
                 <argument>-h9894</argument>
                 <argument>-s8985</argument>
-                <argument>-p1985</argument>
+                <argument>-l</argument>
                 <argument>-Urestxq</argument>
               </arguments>
               <additionalClasspathElements>
@@ -119,7 +119,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
+            <version>1.6.0</version>
             <configuration>
               <mainClass>org.basex.BaseXHTTP</mainClass>
               <arguments>
@@ -140,7 +140,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>1.4.0</version>
+          <version>1.6.0</version>
           <configuration>
             <mainClass>org.basex.BaseX</mainClass>
             <arguments>
@@ -160,7 +160,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.4.0</version>
+            <version>1.6.0</version>
             <configuration>
               <mainClass>org.basex.BaseXGUI</mainClass>
               <arguments>
