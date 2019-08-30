@@ -75,8 +75,8 @@ declare function _:import-transform($file as xs:string) {
   
   let $xml1 := xslt:transform($doc, $xsl1) 
   let $xml2 := xslt:transform($xml1, $xsl2) 
-  let $xml3 := xslt:transform($xml2, $xsl3) 
-  let $xml4 := $xml3 (: xslt:transform($xml3, $xsl4) :)
+  (:let $xml3 := xslt:transform($xml2, $xsl3):) 
+  let $xml4 := $xml2 (: xslt:transform($xml3, $xsl4) :)
   
   (: TODO: check import file for errors :)
   let $td := $xml4//td[@type]
